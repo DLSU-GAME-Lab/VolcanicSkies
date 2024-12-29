@@ -58,7 +58,7 @@ void testSetters(){
 
 void testMiscellany(const size_t nX, const size_t nY, const int steps, const int frac){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/FlatMACUlyssesComparison/FlatMAC");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && ((dir_Entry.path().extension().string() == ".png") || (dir_Entry.path().extension().string() == ".ppm")))
             std::filesystem::remove(dir_Entry.path());
@@ -70,7 +70,7 @@ void testMiscellany(const size_t nX, const size_t nY, const int steps, const int
             std::filesystem::remove(dir_Entry.path());
     }
 
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto l1 = std::make_shared<PWM::Model::airLayer<dsType, valType>>(PWM::Model::airLayer<dsType, valType>(planetos, 100, 100, nX, nY, 10000, 2500));
     auto l2 = std::make_shared<PWM::Model::airLayer<dsType2, valType>>(PWM::Model::airLayer<dsType2, valType>(planetos, 100, 100, nX, 10000));
     l1->getObstacles().copy(0);
@@ -102,8 +102,8 @@ void testMiscellany(const size_t nX, const size_t nY, const int steps, const int
         }
     }
     std::stringstream fO, fO1;
-    fO << "../ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Obstacles.ppm";
-    fO1 << "../ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Obstacles.ppm";
+    fO << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Obstacles.ppm";
+    fO1 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Obstacles.ppm";
     PWM::Utils::writeTerrElevImage(fO.str(), l1->getObstacles());
     PWM::Utils::writeTerrElevImage(fO1.str(), l2->getObstacles());
 //    l1->getVelocityPhi().randomInit(-20, 20);
@@ -135,10 +135,10 @@ void testMiscellany(const size_t nX, const size_t nY, const int steps, const int
     /*for (int i = 0; i <= steps; ++i){
         if (i % frac == 0){
             std::stringstream fT, fVY, fVX, fP;
-            fT << "../ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Temperature_Step_" << i + 1 << ".ppm";
-            fVX << "../ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_VelX_Step_" << i + 1 << ".ppm";
-            fVY << "../ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_VelY_Step_" << i + 1 << ".ppm";
-            fP << "../ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Pressure_Step_" << i + 1 << ".ppm";
+            fT << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Temperature_Step_" << i + 1 << ".ppm";
+            fVX << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_VelX_Step_" << i + 1 << ".ppm";
+            fVY << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_VelY_Step_" << i + 1 << ".ppm";
+            fP << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/FlatMAC/Layer_Pressure_Step_" << i + 1 << ".ppm";
             PWM::Utils::writeTempImage(fT.str(), l1->getTemperature());
             PWM::Utils::writeVelImage(fVX.str(), l1->getVelocityTheta());
             PWM::Utils::writeVelImage(fVY.str(), l1->getVelocityPhi());
@@ -155,10 +155,10 @@ void testMiscellany(const size_t nX, const size_t nY, const int steps, const int
     for (int i = 0; i <= steps; ++i){
         if (i % frac == 0){
             std::stringstream fT, fVY, fVX, fP;
-            fT << "../ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Temperature_Step_" << i + 1 << ".ppm";
-            fVX << "../ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_VelX_Step_" << i + 1 << ".ppm";
-            fVY << "../ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_VelY_Step_" << i + 1 << ".ppm";
-            fP << "../ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Pressure_Step_" << i + 1 << ".ppm";
+            fT << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Temperature_Step_" << i + 1 << ".ppm";
+            fVX << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_VelX_Step_" << i + 1 << ".ppm";
+            fVY << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_VelY_Step_" << i + 1 << ".ppm";
+            fP << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/FlatMACUlyssesComparison/Ulysses/Layer_Pressure_Step_" << i + 1 << ".ppm";
             PWM::Utils::writeTempImage(fT.str(), l2->getTemperature());
             PWM::Utils::writeVelImage(fVX.str(), l2->getVelocityTheta());
             PWM::Utils::writeVelImage(fVY.str(), l2->getVelocityPhi());

@@ -241,7 +241,7 @@ void skirt::exportSkirt(int framenum, int layernum)
     framenumstr = to_string(framenum);
     int precision = 3 - std::min((int) framenumstr.size(), 3);
     string framename = std::string(precision, '0').append(framenumstr);
-    skirtfname = "../output/skirts_" + framename + "_" + to_string(layernum) + ".txt";
+    skirtfname = "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/skirts_" + framename + "_" + to_string(layernum) + ".txt";
     write(skirtfname);
 }
 

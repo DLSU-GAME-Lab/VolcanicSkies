@@ -88,7 +88,7 @@ void testSetters(){
 }
 
 void testMiscellany(){
-	auto planetos = std::make_shared<planet>(planet("../resources/PlanetEarth.json"));
+	auto planetos = std::make_shared<planet>(planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto en = verticalCouplingEngine<dsType, valType>(512, 20000.f, 60.f, true, true);
     auto l1 = std::make_shared<airLayer<dsType, valType>>(airLayer<dsType, valType>(planetos, 500, 1000, 512, 512, 20000.f, 20000.f));
     auto l2 = std::make_shared<airLayer<dsType, valType>>(airLayer<dsType, valType>(planetos, 1500, 1000, 512, 512, 20000.f, 20000.f));
@@ -116,16 +116,16 @@ void testMiscellany(){
 }
 
 void benardCellTest(){
-    auto planetos = std::make_shared<planet>(planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<planet>(planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/CVEBénardTest/NoCorrection");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/NoCorrection");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
     }
 
     currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
@@ -150,7 +150,7 @@ void benardCellTest(){
         }
     }
     std::stringstream terTF;
-    terTF << "../ImageOutput/CVEBénardTest/Terrain_Init_Temperature.ppm";
+    terTF << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/Terrain_Init_Temperature.ppm";
     PWM::Utils::writeTempImage(terTF.str(), t->getTemperature());
 
     std::vector<std::shared_ptr<airLayer<dsType, valType>>> aLs;
@@ -206,12 +206,12 @@ void benardCellTest(){
         if (i % 10 == 0){
             for (int j = 0; j < aLs.size(); ++j){
                 std::stringstream s;
-                s << "../ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection/Air_Layer_" << j << "_Step_" << i << "_Temperature.ppm";
+                s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection/Air_Layer_" << j << "_Step_" << i << "_Temperature.ppm";
                 PWM::Utils::writeTempImage(s.str(), aLs[j]->getTemperature());
             }
             for (int j = 0; j < cLs.size(); ++j){
                 std::stringstream s;
-                s << "../ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection/Convection_Layer_" << j << "_Step_" << i << "_VerticalVelocity.ppm";
+                s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/WithAdvectionAndSpeedCorrection/Convection_Layer_" << j << "_Step_" << i << "_VerticalVelocity.ppm";
                 PWM::Utils::writeVelImage(s.str(), cLs[j]->getVerticalVelocities());
             }
         }
@@ -225,16 +225,16 @@ void benardCellTest(){
 }
 
 void minimalistBenardCellTest(int layers, int steps){
-    auto planetos = std::make_shared<planet>(planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<planet>(planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/CVEBénardTest");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
     }
 
     currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/CVEBénardTest/MinimalTests");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
@@ -302,7 +302,7 @@ void minimalistBenardCellTest(int layers, int steps){
     }
 
     std::stringstream terTF;
-    terTF << "../ImageOutput/CVEBénardTest/Terrain_Init_Temperature.ppm";
+    terTF << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/Terrain_Init_Temperature.ppm";
     PWM::Utils::writeTempImage(terTF.str(), t->getTemperature());
 
     std::vector<std::shared_ptr<airLayer<dsType, valType>>> aLs;
@@ -365,10 +365,10 @@ void minimalistBenardCellTest(int layers, int steps){
         if (i % 16 == 0/*> 677 && i < 685*/){
             for (int j = 0; j < aLs.size(); ++j){
                 std::stringstream s, s1, s2, s3;
-                s << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Temperature_Before_Step_" << i << ".ppm";
-                s1 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelX_Before_Step_" << i << ".ppm";
-                s2 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelY_Before_Step_" << i << ".ppm";
-//                s3 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Pressure_Before_Step_" << i << ".ppm";
+                s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Temperature_Before_Step_" << i << ".ppm";
+                s1 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelX_Before_Step_" << i << ".ppm";
+                s2 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelY_Before_Step_" << i << ".ppm";
+//                s3 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Pressure_Before_Step_" << i << ".ppm";
                 PWM::Utils::writeTempImage(s.str(), aLs[j]->getTemperature());
                 PWM::Utils::writeVelImage(s1.str(), aLs[j]->getVelocityTheta());
                 PWM::Utils::writeVelImage(s2.str(), aLs[j]->getVelocityPhi());
@@ -376,7 +376,7 @@ void minimalistBenardCellTest(int layers, int steps){
             }
             for (int j = 0; j < cLs.size(); ++j){
                 std::stringstream s;
-                s << "../ImageOutput/CVEBénardTest/MinimalTests/Convection_Layer_" << j << "_Before_Step_" << i << "_VerticalVelocity.ppm";
+                s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Convection_Layer_" << j << "_Before_Step_" << i << "_VerticalVelocity.ppm";
                     PWM::Utils::writeVelImage(s.str(), cLs[j]->getVerticalVelocities());
             }
         }
@@ -390,10 +390,10 @@ void minimalistBenardCellTest(int layers, int steps){
             x.step();
             /*//        for (int j = 0; j < aLs.size(); ++j){
 //            std::stringstream s, s1, s2, s3;
-//            s << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Temperature_Before_Step_" << i << "_PresSolve.ppm";
-//            s1 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelX_Before_Step_" << i << "_PresSolve.ppm";
-//            s2 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelY_Before_Step_" << i << "_PresSolve.ppm";
-//            s3 << "../ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Pressure_Before_Step_" << i << "_PresSolve.ppm";
+//            s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Temperature_Before_Step_" << i << "_PresSolve.ppm";
+//            s1 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelX_Before_Step_" << i << "_PresSolve.ppm";
+//            s2 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_VelY_Before_Step_" << i << "_PresSolve.ppm";
+//            s3 << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Air_Layer_" << j << "_" << aLs[j]->getHeight() << "m_Pressure_Before_Step_" << i << "_PresSolve.ppm";
 //            PWM::Utils::writeTempImage(s.str(), aLs[j]->getTemperature());
 //            PWM::Utils::writeVelImage(s1.str(), aLs[j]->getVelocityTheta());
 //            PWM::Utils::writeVelImage(s2.str(), aLs[j]->getVelocityPhi());
@@ -401,7 +401,7 @@ void minimalistBenardCellTest(int layers, int steps){
 //        }
 //        for (int j = 0; j < cLs.size(); ++j){
 //            std::stringstream s;
-//            s << "../ImageOutput/CVEBénardTest/MinimalTests/Convection_Layer_" << j << "_VerticalVelocity_Before_Step_" << i << "_PresSolve.ppm";
+//            s << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/CVEBénardTest/MinimalTests/Convection_Layer_" << j << "_VerticalVelocity_Before_Step_" << i << "_PresSolve.ppm";
 //            PWM::Utils::writeVelImage(s.str(), cLs[j]->getVerticalVelocities());
 //        }*/
 //            zP.solvePressureProjection(); //NB! Not needed with velocity adjust?

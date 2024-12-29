@@ -24,6 +24,7 @@
 // 05 May 2021
 #ifndef PWM_ABSTRACTPWMDATASTRUCTURE_H
 #define PWM_ABSTRACTPWMDATASTRUCTURE_H
+# define IMATH_HALF_NO_LOOKUP_TABLE
 
 #include "Coordinate.h"
 #include <cstddef>

@@ -10,10 +10,10 @@ set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS true)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -march=native -fopenmp -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -march=native -fopenmp -fPIC /bigobj")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O3 -mcpu=apple-m1 -Xpreprocessor -fopenmp -fPIC -I /usr/local/include/eigen3/ -I /opt/homebrew/opt/libomp/include")
 #-I /opt/homebrew/Cellar/openvdb/10.0.1_1/include")
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 list(APPEND CMAKE_MODULE_PATH "/usr/local/lib/cmake/OpenVDB")
 #list(APPEND CMAKE_MODULE_PATH "/opt/homebrew/Cellar/openvdb/10.0.1_1/lib/cmake/OpenVDB")
@@ -483,6 +483,9 @@ add_executable(SmoothingTest
     src/Tests/SmoothingTest.cpp
 )
 
-target_link_libraries(MergeTestbed OpenVDB::openvdb Eigen3::Eigen ${OpenCV_LIBS})
-target_link_libraries(PrecipitationEngineTest OpenVDB::openvdb Eigen3::Eigen ${OpenCV_LIBS})
+
+#target_link_libraries(MergeTestbed OpenVDB::openvdb Eigen3::Eigen ${OpenCV_LIBS})
+#target_link_libraries(PrecipitationEngineTest OpenVDB::openvdb Eigen3::Eigen ${OpenCV_LIBS})
+target_link_libraries(MergeTestbed openvdb Eigen3::Eigen ${OpenCV_LIBS})
+target_link_libraries(PrecipitationEngineTest openvdb Eigen3::Eigen ${OpenCV_LIBS})
 #target_link_libraries(CloudClassificationTest OpenVDB::openvdb Eigen3::Eigen)

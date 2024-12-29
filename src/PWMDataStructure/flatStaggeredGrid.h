@@ -449,7 +449,7 @@ namespace PWM {
                     dest->setData(i, j, newVal);
                 }
             }
-            #pragma omp barrier
+            #pragma omp barrier {}
         }
 
         template<typename T>

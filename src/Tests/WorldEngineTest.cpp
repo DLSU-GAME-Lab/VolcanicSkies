@@ -39,8 +39,8 @@ terrain_structure constructTestTerrStruct(std::string file, float cellWidth = 40
 
 void testConstructors(){
 	auto x = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj");
-    x->init("../resources/PlanetEarth.json", ter);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj");
+    x->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter);
 	
 	auto a = worldEngine(x, 60.f, true);
 	if (a.getWorldModel() == x)
@@ -51,8 +51,8 @@ void testConstructors(){
 
 void testGetters(){
 	auto x = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj");
-    x->init("../resources/PlanetEarth.json", ter);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj");
+    x->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter);
 
 	auto a = worldEngine(x, 60.f, true);
 	if (a.getWorldModel() == x)
@@ -63,7 +63,7 @@ void testGetters(){
 
 void testMiscellany(int layers, int width, int height, int steps, valType xSize, valType ySize, valType topOfAtmo){
 	/* auto x = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-	x->init("../resources/testResources/PlanetEarth.json", "../resources/testResources/test.pwea");
+	x->init("X:/GithubProjects/VolcanicSkies-main/resources/testResources/PlanetEarth.json", "X:/GithubProjects/VolcanicSkies-main/resources/testResources/test.pwea");
 	
 	auto a = worldEngine(x, 60.f, true);
 
@@ -84,7 +84,7 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
             std::filesystem::remove(dir_Entry.path());
     }
 
-    currDir.concat("ImageOutput/WorldEngineTesting/ConstantWind");
+    currDir.concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/ConstantWind");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
@@ -98,7 +98,7 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
 
 //	auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
     auto z = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
 //    auto ter = terrain_structure();
 //    ter.testTerrainStructure(width);
 //    y->maxLayers = layers;
@@ -106,10 +106,10 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
     z->maxLayers = layers;
     z->atmoTop = topOfAtmo;
 
-//    y->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize);
-//    y->addSun("../resources/SunSol.json");
-    z->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize);
-    z->addSun("../resources/SunSol.json");
+//    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize);
+//    y->addSun("X:/GithubProjects/VolcanicSkies-main/resources/SunSol.json");
+    z->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize);
+    z->addSun("X:/GithubProjects/VolcanicSkies-main/resources/SunSol.json");
 
     for (int i = 0; i < layers; ++i){
 //        y->getAirLayer(i)->getVelocityTheta() = 8;
@@ -139,11 +139,11 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
     z->getAirLayer(3)->getTemperature() = 245;
     z->getAirLayer(3)->getCondensedWater() = 0.12f;
 
-//    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/WorldEngineTesting/PWMElevationMap" + std::to_string(y->getTerrain()->getElevation().getX()) + "x" + std::to_string(y->getTerrain()->getElevation().getY()) + ".ppm", y->getTerrain()->getElevation());
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/WorldEngineTesting/PlumeElevationMap" + std::to_string(ter.field_size) + "x" + std::to_string(ter.field_size) + ".ppm", ter);
+//    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/PWMElevationMap" + std::to_string(y->getTerrain()->getElevation().getX()) + "x" + std::to_string(y->getTerrain()->getElevation().getY()) + ".ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/PlumeElevationMap" + std::to_string(ter.field_size) + "x" + std::to_string(ter.field_size) + ".ppm", ter);
 //    std::cout << "Lava lake is at " << y->getTerrain()->getElevation((height / 2) * width + width / 2) << " m above ASL." << std::endl;
     std::stringstream terTF;
-    terTF << "../ImageOutput/WorldEngineTesting/Terrain_Init_Temperature.ppm";
+    terTF << "X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/Terrain_Init_Temperature.ppm";
 //    PWM::Utils::writeTempImage(terTF.str(), y->getTerrain()->getTemperature());
 
 //    auto b = worldEngine(y, 1.f, true);
@@ -174,17 +174,17 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
 //	manCloudGen(b.getWorldModel()->getAirLayer(b.getWorldModel()->getAirLayers().size() - 1), 125, 4);
 //  PWM::Utils::extractClouds(b.getWorldModel(), "TestingOutput", 0.1);
 //	PWM::Utils::basicCloudExtract(b.getWorldModel(), "TestingBasicOutput", 0.1);
-//    PWM::Utils::writeAirImages("../ImageOutput/WorldEngineTesting", 0, b.getWorldModel());
+//    PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting", 0, b.getWorldModel());
 //    b.printViz = false;
     c.printViz = false;
-//    b.outputDirectory = "../ImageOutput/WorldEngineTesting/ConstantWind";
-    c.outputDirectory = "../ImageOutput/WorldEngineTesting/RandomWind";
+//    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/ConstantWind";
+    c.outputDirectory = "X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/RandomWind";
     for (int i = 0; i <= steps; ++i){
         if (i % 10 == 0){
-//            PWM::Utils::writeAirImages("../ImageOutput/WorldEngineTesting/ConstantWind", i, b.getWorldModel());
-//            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/WorldEngineTesting/ConstantWind", i, 0.1);
-            PWM::Utils::writeAirImages("../ImageOutput/WorldEngineTesting/RandomWind", i, c.getWorldModel());
-            PWM::Utils::basicCloudExtract(c.getWorldModel(), "../ImageOutput/WorldEngineTesting/RandomWind", i, 0.1);
+//            PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/ConstantWind", i, b.getWorldModel());
+//            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/ConstantWind", i, 0.1);
+            PWM::Utils::writeAirImages("X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/RandomWind", i, c.getWorldModel());
+            PWM::Utils::basicCloudExtract(c.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting/RandomWind", i, 0.1);
         }
 //        previousStep = b.getRunTimePassed();
 //        b.step();
@@ -206,7 +206,7 @@ void testMiscellany(int layers, int width, int height, int steps, valType xSize,
         else if (i == (7 * steps / 8))
             std::cerr << "\033[1;36m87.5% of the way\033[0m" << std::endl;
 	}
-//    PWM::Utils::writeAirGifImages("ImageOutput/WorldEngineTesting", b.getWorldModel());
+//    PWM::Utils::writeAirGifImages("X:/GithubProjects/VolcanicSkies-main/ImageOutput/WorldEngineTesting", b.getWorldModel());
 //    b.printTiming(true);
     c.printTiming(true);
 }
@@ -259,17 +259,17 @@ int main(int argc, char** argv){
                 break;
 
         }
-//	std::cout << "\nTesting class \033[1;34m'worldEngine'\033[0m:" << std::endl;
+	std::cout << "\nTesting class \033[1;34m'worldEngine'\033[0m:" << std::endl;
 	
-//	std::cout << "\n\033[1;37mTesting constructors:\033[0m" << std::endl;
+	std::cout << "\n\033[1;37mTesting constructors:\033[0m" << std::endl;
     testConstructors();
 	
-//	std::cout << "\n\033[1;37mTesting getters:\033[0m" << std::endl;
+	std::cout << "\n\033[1;37mTesting getters:\033[0m" << std::endl;
     testGetters();
 	
 //	std::cout << "\n\033[1;37mTesting miscellany:\033[0m" << std::endl;
 //    for (int i = 0; i < reps; ++i)
-        testMiscellany(layers, width, height, steps, 30000, 30000, 10000);
+        // testMiscellany(layers, width, height, steps, 30000, 30000, 10000);
     /*for (int i = 0; i < 10; ++i)
         testMiscellany(14, 512, 500);
     for (int i = 0; i < 10; ++i)

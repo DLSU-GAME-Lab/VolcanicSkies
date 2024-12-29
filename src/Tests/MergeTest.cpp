@@ -36,6 +36,7 @@
 #include "world.h"
 #include "worldEngine.h"
 #include "timer.hpp"
+#include <numbers>
 
 typedef double valType;
 typedef std::string valType2;
@@ -535,10 +536,10 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
     if (writeTestGrids){
         int width = 128;
         auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-        auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj", 400.f, 15000.f);
+        auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj", 400.f, 15000.f);
         y->maxLayers = 15;
         y->atmoTop = 18000.f;
-        y->init("../resources/PlanetEarth.json", ter, width);
+        y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width);
         for (int i = 0; i < y->getAirLayers().size(); ++i){
             y->getAirLayer(i)->getVelocityTheta() = 0;
             y->getAirLayer(i)->getVelocityPhi() = 0;
@@ -600,7 +601,7 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
     }*/
 
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/DonutCloud");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/DonutCloud");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -613,7 +614,7 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
 //    auto ter = terrain_structure();
 //    ter = ter.testTerrainStructure(128);
 
@@ -624,7 +625,7 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
     //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
 
     for (int i = 0; i < y->getAirLayers().size(); ++i){
         y->getAirLayer(i)->getVelocityTheta() = 0;
@@ -640,8 +641,8 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
     y->getAirLayer(cloudIndex)->getTemperature() = 245;
     y->getAirLayer(cloudIndex)->getCondensedWater() = val;
 
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
 
     float weatherDT = 2.f;
@@ -684,7 +685,7 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = 100;
-    b.outputDirectory = "../ImageOutput/MergeTest/DonutCloud";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloud";
     for (int i = 0; i <= steps; ++i){
 //		std::cerr << "Performing step " << i << " for the plume engine." << std::endl;
         float d = plume.run_time;
@@ -696,10 +697,10 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
         if (i % plume_export_frequency == 0){
 //            plume.export_spheres_binary(plume_export_frequency);
 //            plume.export_spheres_combined(plume_export_frequency);
-            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/DonutCloud", i, cloudThreshold);
+            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloud", i, cloudThreshold);
 //            vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold);
 //            if (b.getStepCount() % 2  == 0){
-                PWM::Utils::writeAirImages("../ImageOutput/MergeTest/DonutCloud", frame_num, b.getWorldModel());
+                PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloud", frame_num, b.getWorldModel());
 //            }
         }
         if (i % ((int) (weatherDT / plumeDT)) == 0){
@@ -740,7 +741,7 @@ int donutClouds(int steps, int width, int height, valType xSize, valType ySize, 
 //Testing the second validation case: ash rain.
 int ashRain(int steps, int width, int height, valType xSize, valType ySize, int layers, valType topOfAtmo, bool terse = false){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/AshRain");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/AshRain");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -753,7 +754,7 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
 //    auto ter = terrain_structure();
 //    ter = ter.testTerrainStructure(128);
     y->maxLayers = layers;
@@ -761,7 +762,7 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
     valType cloudThreshold = 0.1;
-    y->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
 
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed };
@@ -812,8 +813,8 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
 //        std::cout << kCloud.str() << "\n" << std::endl;
     }
 
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
 
     float weatherDT = 2.f;
@@ -855,7 +856,7 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = 100;
-    b.outputDirectory = "../ImageOutput/MergeTest/AshRain";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain";
     for (int i = 0; i <= steps; ++i){
 //		std::cerr << "Performing step " << i << " for the plume engine." << std::endl;
         float d = plume.run_time;
@@ -871,14 +872,14 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
         if (i % ((int) (weatherDT / plumeDT)) == 0){
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
-            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/AshRain", i, cloudThreshold);
+            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain", i, cloudThreshold);
             if(!terse)
                 vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold);
             if (b.getStepCount() % 2 == 0){
                 if(terse)
-                    PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/AshRain", i, b.getWorldModel());
+                    PWM::Utils::writeAirImagesSelect("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain", i, b.getWorldModel());
                 else
-                    PWM::Utils::writeAirImages("../ImageOutput/MergeTest/AshRain", i, b.getWorldModel());
+                    PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain", i, b.getWorldModel());
             }
 //            std::cerr << "Performing step " << b.getStepCount() << " for the weather engine." << std::endl;
             previousStep = b.getRunTimePassed();
@@ -913,7 +914,7 @@ int ashRain(int steps, int width, int height, valType xSize, valType ySize, int 
 //Testing the first validation case: donut plume, using the bigger scale landscape.
 int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/DonutCloudBigScale");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/DonutCloudBigScale");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -926,7 +927,7 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructBigTerrain("../resources/MtStHelens.elv");
+    auto ter = constructBigTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
     std::cout << "Terrain has " << ter.field_size << " cells a side, with a length of " << ter.max_xyz - ter.min_xyz << " metres on a side. Each cell is " << ter.cell_size << " metres on a side." << std::endl;
 
     y->maxLayers = layers;
@@ -935,7 +936,7 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
     //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
 
     for (int i = 0; i < y->getAirLayers().size(); ++i){
         y->getAirLayer(i)->getVelocityTheta() = 0;
@@ -952,8 +953,8 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
     y->getAirLayer(cloudIndex)->getTemperature() = 245;
     y->getAirLayer(cloudIndex)->getCondensedWater() = val;
 
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
 
     float weatherDT = 2.f;
@@ -994,7 +995,7 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = 100;
-    b.outputDirectory = "../ImageOutput/MergeTest/DonutCloudBigScale";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloudBigScale";
     for (int i = 0; i <= steps; ++i){
         //		std::cerr << "Performing step " << i << " for the plume engine." << std::endl;
         float d = plume.run_time;
@@ -1009,11 +1010,11 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
             // plume.export_spheres(plume_export_frequency);
             plume.export_spheres_binary(plume_export_frequency);
             // plume.export_spheres_combined(plume_export_frequency);
-            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/DonutCloud", i, cloudThreshold);
+            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloud", i, cloudThreshold);
             vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold);
 
             if (b.getStepCount() % 2  == 0){
-                PWM::Utils::writeAirImages("../ImageOutput/MergeTest/DonutCloudBigScale", b.getStepCount(), b.getWorldModel());
+                PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/DonutCloudBigScale", b.getStepCount(), b.getWorldModel());
             }
         }
         if (i % ((int) (weatherDT / plumeDT)) == 0){
@@ -1052,7 +1053,7 @@ int donutCloudsBigScale(int steps, int layers, valType topOfAtmo){
 //Testing the second validation case: ash rain, with the bigger landscape.
 int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false, bool analysis = false, bool atmosim = true){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/AshRainBigScale");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/AshRainBigScale");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -1065,14 +1066,14 @@ int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructBigTerrain("../resources/MtStHelens.elv");
+    auto ter = constructBigTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
     std::cout << "Terrain has " << ter.field_size << " cells a side, with a length of " << ter.max_xyz - ter.min_xyz << " metres on a side. Each cell is " << ter.cell_size << " metres on a side." << std::endl;
 
     y->maxLayers = layers;
     y->atmoTop = topOfAtmo;    //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
     
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed };
@@ -1128,8 +1129,8 @@ int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false
         //        std::cout << kMois.str() << "\n" << std::endl;
         //        std::cout << kCloud.str() << "\n" << std::endl;
     }
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
 
     valType cloudThreshold = 0.1;
@@ -1188,11 +1189,11 @@ int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false
         }
     }
 
-    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.ppm", y->getTerrain()->getTemperature());
+    PWM::Utils::writeTempImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.ppm", y->getTerrain()->getTemperature());
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = 100;
-    b.outputDirectory = "../ImageOutput/MergeTest/AshRainBigScale";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale";
     for (int i = 0; i <= steps; ++i){
         //		std::cerr << "Performing step " << i << " for the plume engine." << std::endl;
 
@@ -1230,16 +1231,16 @@ int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false
             std::cout << "DATA TRANSFER" << std::endl;
             if(atmosim)
             {
-                PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/AshRainBigScale", i, cloudThreshold);
+                PWM::Utils::basicCloudExtract(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", i, cloudThreshold);
                 if(!terse && !analysis)
-                    vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold);
+                    vdbExporter.write(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/", frame_num, b.getSimTimePassed(), cloudThreshold);
                 if (b.getStepCount() % 2 == 0){
                     if(!analysis)
                     {
                         if(terse)
-                            PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
+                            PWM::Utils::writeAirImagesSelect("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
                         else
-                            PWM::Utils::writeAirImages("../ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
+                            PWM::Utils::writeAirImages("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
                        
                     }
                 }
@@ -1287,7 +1288,7 @@ int ashRainBigScale(int steps, int layers, valType topOfAtmo, bool terse = false
 int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave = 0){
     Timer t;
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/AshRainBigScale");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/AshRainBigScale");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".txt" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -1300,8 +1301,8 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructHalfTerrain("../resources/MtStHelens.elv");
-    auto pTer = constructHalfTerrain("../resources/MtStHelens.elv");
+    auto ter = constructHalfTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
+    auto pTer = constructHalfTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
     std::cout << "Terrain has " << ter.field_size << " cells a side, with a length of " << ter.max_xyz - ter.min_xyz << " metres on a side. Each cell is " << ter.cell_size << " metres on a side." << std::endl;
 
     y->maxLayers = layers;
@@ -1309,7 +1310,7 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
     valType cloudThreshold = 0.1;
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
     
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed};
@@ -1343,15 +1344,16 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
         valType R = 6371000, T = 86400 * 12, t = 1;
         auto moisVal = (y->getAirLayer(k)->getHeight() < 3000) || (y->getAirLayer(k)->getHeight() > 8000) ? 0.08 : 0.06;
         auto cloudVal = (y->getAirLayer(k)->getHeight() < 4000) || (y->getAirLayer(k)->getHeight() > 10000) ? 0.06 : 0.08;
-        auto interval = std::numbers::pi / ter.field_size;
+        const double Pi = 3.141592653589;
+        auto interval = Pi / ter.field_size;
         for (int i = 0; i < ter.field_size; ++i){
             for (int j = 0; j < ter.field_size; ++j){
                 valType thetaCoor, lambdaPrime;
                 thetaCoor = i * interval;
-                lambdaPrime = j * interval - (2 * std::numbers::pi * t) / T;
-                valType velPhi = -(10 * R / T) * std::sin(2 * lambdaPrime) * std::cos(thetaCoor) * std::cos((std::numbers::pi * t) / T);
+                lambdaPrime = j * interval - (2 * Pi * t) / T;
+                valType velPhi = -(10 * R / T) * std::sin(2 * lambdaPrime) * std::cos(thetaCoor) * std::cos((Pi * t) / T);
                 y->getAirLayer(k)->setVelocityPhi(i, j, velPhi * 10);
-                valType velTheta = -(10 * R / T) * std::pow(std::sin(lambdaPrime), 2) * std::sin(2 * thetaCoor) * std::cos((std::numbers::pi * t) / T) + (2 * std::numbers::pi * R / T) * std::cos(thetaCoor);
+                valType velTheta = -(10 * R / T) * std::pow(std::sin(lambdaPrime), 2) * std::sin(2 * thetaCoor) * std::cos((Pi * t) / T) + (2 * Pi * R / T) * std::cos(thetaCoor);
                 y->getAirLayer(k)->setVelocityTheta(i, j, velTheta * 10);
 
                 valType newTemp = y->getAirLayer(k)->getTemperature(i, j) + (temPerNoiGen.normalizedOctave3D(i * 0.01, j * 0.01, k * 0.1, octaves) * 25);
@@ -1373,10 +1375,10 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
             }
         }
     }
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.png", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.png", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
-    writeLayerStruct("../ImageOutput/MergeTest/AshRainBigScale", y);
+    writeLayerStruct("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", y);
 
     float weatherDT = 3.f;
     float cveDT = 9.f;
@@ -1387,7 +1389,7 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
     plume.setup_data(pTer, y->getPlanet(), b.getWorldModel()->getAirLayers().size());
     plume.addAtmoModel(y);
     float ventHeight = ter.sampleHeightAt(BigPlumeLocation.first, BigPlumeLocation.second);
-    writeLayerStruct("../ImageOutput/MergeTest/AshRainBigScale", y);
+    writeLayerStruct("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", y);
 
     plume.setPlumeLoc(Eigen::Vector3f(BigPlumeLocation.first + ter.min_xyz, BigPlumeLocation.second + ter.min_xyz, ventHeight));
     // take altitude layers from atmospheric model
@@ -1417,11 +1419,11 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
 //        }
 //    }
 
-    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.ppm", y->getTerrain()->getTemperature());
+    PWM::Utils::writeTempImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.ppm", y->getTerrain()->getTemperature());
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = weatherDT / plumeDT;
-    b.outputDirectory = "../ImageOutput/MergeTest/AshRainBigScale";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale";
     for (int i = 0; i <= steps; ++i){
         t.start();
         float d = plume.run_time;
@@ -1434,13 +1436,13 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
             plume.export_spheres_binary(plume_export_frequency, true);
         }
         if (i % ((int) (weatherDT / plumeDT)) == 0){
-            PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
+            PWM::Utils::writeAirImagesSelect("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", i, b.getWorldModel());
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
             if(i >= startSave * plume_export_frequency){
-               PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/AshRainBigScale", i, cloudThreshold);
+               PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", i, cloudThreshold);
                // vdbExporter.write(b.getWorldModel(), "../output", b.getStepCount(), b.getSimTimePassed(), cloudThreshold);
-               writeTerrainAshVals("../ImageOutput/MergeTest/AshRainBigScale", b.getWorldModel()->getTerrain(), i, plumeLoc);
+               writeTerrainAshVals("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainBigScale", b.getWorldModel()->getTerrain(), i, plumeLoc);
             }
             previousStep = b.getRunTimePassed();
             b.step();
@@ -1479,7 +1481,7 @@ int ashRainBigScaleFinal(int steps, int layers, valType topOfAtmo, int startSave
 int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, float landScapeMax, int startSave = 0){
     Timer t;
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/AshRainValidation");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/AshRainValidation");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".txt" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
@@ -1501,7 +1503,7 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
     valType cloudThreshold = 0.1;
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
 
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed};
@@ -1555,10 +1557,10 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
             }
         }
     }
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.png", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.png", ter);
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
-    writeLayerStruct("../ImageOutput/MergeTest/AshRainValidation", y);
+    writeLayerStruct("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation", y);
 
     float weatherDT = 3.f;
     float cveDT = 9.f;
@@ -1569,7 +1571,7 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
     plume.setup_data(pTer, y->getPlanet(), b.getWorldModel()->getAirLayers().size());
     plume.addAtmoModel(y);
     float ventHeight = ter.sampleHeightAt(BigPlumeLocation.first, BigPlumeLocation.second);
-    writeLayerStruct("../ImageOutput/MergeTest/AshRainValidation", y);
+    writeLayerStruct("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation", y);
 
     plume.setPlumeLoc(Eigen::Vector3f(0, 0, ventHeight));
     // take altitude layers from atmospheric model
@@ -1599,11 +1601,11 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
     //        }
     //    }
 
-    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
+    PWM::Utils::writeTempImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = weatherDT / plumeDT;
-    b.outputDirectory = "../ImageOutput/MergeTest/AshRainValidation";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation";
     for (int i = 0; i <= steps; ++i){
         t.start();
         float d = plume.run_time;
@@ -1619,10 +1621,10 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
             if(i >= startSave * plume_export_frequency){
-                //                PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/AshRainValidation", i, cloudThreshold);
+                //                PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation", i, cloudThreshold);
                 //                vdbExporter.write(b.getWorldModel(), "../output", b.getStepCount(), b.getSimTimePassed(), cloudThreshold);
-                // PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/AshRainValidation", i, b.getWorldModel());
-                writeTerrainAshVals("../ImageOutput/MergeTest/AshRainValidation", b.getWorldModel()->getTerrain(), i, plumeLoc);
+                // PWM::Utils::writeAirImagesSelect("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation", i, b.getWorldModel());
+                writeTerrainAshVals("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRainValidation", b.getWorldModel()->getTerrain(), i, plumeLoc);
             }
             previousStep = b.getRunTimePassed();
             b.step();
@@ -1660,28 +1662,28 @@ int ashRainValidation(int steps, int layers, valType topOfAtmo, int cellCount, f
 // Shorter term simulation that includes three layers of skirts
 int skirts3(int steps, int layers, valType topOfAtmo){
     Timer t;
-    auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/Skirt");
+    auto currDir = std::filesystem::path("X:/GithubProjects/VolcanicSkies-main/ImageOutput/");
+    currDir.remove_filename().remove_filename().concat("MergeTest/Skirt");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
     }
 
-    currDir = std::filesystem::current_path();
+    currDir = std::filesystem::path("X:/GithubProjects/VolcanicSkies-main/ImageOutput/");
     currDir.remove_filename().remove_filename().concat("output/");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".vdb" || dir_Entry.path().extension().string() == ".txt"))
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructHalfTerrain("../resources/MtStHelens.elv");
+    auto ter = constructHalfTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
    
     y->maxLayers = layers;
     y->atmoTop = topOfAtmo;
     //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
     
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed };
@@ -1717,8 +1719,8 @@ int skirts3(int steps, int layers, valType topOfAtmo){
             }
         }
     }
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+    PWM::Utils::writeTerrElevImage("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
 
     valType cloudThreshold = 0.1;
@@ -1757,11 +1759,11 @@ int skirts3(int steps, int layers, valType topOfAtmo){
         center.z() += 1000.0f;
     }
 
-    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
+    PWM::Utils::writeTempImage("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
 
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = weatherDT / plumeDT;
-    b.outputDirectory = "../ImageOutput/MergeTest/Skirt";
+    b.outputDirectory = "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/Skirt";
     for (int i = 0; i <= steps; ++i){
         t.start();
         
@@ -1786,9 +1788,9 @@ int skirts3(int steps, int layers, valType topOfAtmo){
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
 
-            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/Skirt", i, cloudThreshold);
-            vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold); // uncomment for final run
-            PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/Skirt", i, b.getWorldModel()); // images of atmo layers
+            PWM::Utils::basicCloudExtract(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/Skirt", i, cloudThreshold);
+            vdbExporter.write(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/", frame_num, b.getSimTimePassed(), cloudThreshold); // uncomment for final run
+            PWM::Utils::writeAirImagesSelect("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/Skirt", i, b.getWorldModel()); // images of atmo layers
 
             b.step();
             transferDataFromAtmToPlume(plume, b);
@@ -1820,41 +1822,42 @@ int skirts3(int steps, int layers, valType topOfAtmo){
 // Shorter term simulation that includes a cap cloud and a Wilson cloud
 int capWilson(int steps, int layers, valType topOfAtmo){
     Timer t;
-    auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/CapWilson");
+	auto currDir = std::filesystem::path("X:/GithubProjects/VolcanicSkies-main/ImageOutput");
+	std::cout << "Current directory is " << currDir << std::endl;
+    // currDir.concat("/ImageOutput/").concat("MergeTest/CapWilson");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".txt" || dir_Entry.path().extension().string() == ".vdb"))
             std::filesystem::remove(dir_Entry.path());
     }
-
-    currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("output/");
+    
+    currDir = std::filesystem::path("X:/GithubProjects/VolcanicSkies-main/ImageOutput");
+    // currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/output/");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".vdb" || dir_Entry.path().extension().string() == ".txt"))
             std::filesystem::remove(dir_Entry.path());
     }
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructPartTerrain("../resources/MtStHelens.elv", 2);
-    auto pTer = constructBigTerrain("../resources/MtStHelens.elv");
-
+    auto ter = constructPartTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv", 2);
+    auto pTer = constructBigTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
+    
     y->maxLayers = layers;
     y->atmoTop = topOfAtmo;
     //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
-
-    y->init("../resources/PlanetEarth.json", ter, layerHeights);
-
+    
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
+    
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed };
-
+    
     const siv::PerlinNoise::seed_type moisSeed = 1647u;
     const siv::PerlinNoise moisPerNoiGen{ moisSeed };
-
+    
     const siv::PerlinNoise::seed_type cloudSeed = 11898743u;
     const siv::PerlinNoise cloudPerNoiGen{ cloudSeed };
-
+    
     int octaves = 8;
-
+    
     std::cout << "Adding noise to initial values." << std::endl;
     for (int k = 0; k < y->getAirLayers().size(); ++k){
         if (y->getAirLayer(k)->getHeight() < 7000){
@@ -1878,28 +1881,28 @@ int capWilson(int steps, int layers, valType topOfAtmo){
             }
         }
     }
-    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.png", ter);
-    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage<double>("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.png", ter);
+    PWM::Utils::writeTerrElevImage("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.png", y->getTerrain()->getElevation());
     auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
     float ventHeight = ter.sampleHeightAt(BigPlumeLocation.first, BigPlumeLocation.second);
-
+    
     // Create explosion struct
     auto explosion = std::make_shared<PWM::Model::pressureWave<valType>>(PWM::Model::pressureWave<valType>(y->getPlanet(), 1, 100000));
     explosion->setMaxLife(5);
     explosion->setCentre(BigPlumeLocation);
     explosion->setHeight(ventHeight + 500);
-
+    
     valType cloudThreshold = 0.1;
     float weatherDT = 0.5f;
     float cveDT = 0.5f;
     float quickStepDT = 0.1f;
     double plumeDT = 0.02;
     auto b = worldEngine(y, weatherDT, cveDT, true);
-
+    
     scene_model plume;
     plume.setup_data(pTer, y->getPlanet(), b.getWorldModel()->getAirLayers().size());
     plume.addAtmoModel(y);
-
+    
     plume.setPlumeLoc(Eigen::Vector3f(BigPlumeLocation.first + ter.min_xyz, BigPlumeLocation.second + ter.min_xyz, ventHeight));
     // take altitude layers from atmospheric model
     for (unsigned int i = 0; i<b.getWorldModel()->getAirLayers().size(); i++)
@@ -1909,16 +1912,16 @@ int capWilson(int steps, int layers, valType topOfAtmo){
     auto plumeLoc = convertFromCoordinatesToGridIdx(BigPlumeLocation.first + ter.min_xyz, BigPlumeLocation.second + ter.min_xyz, y);
     std::cout << "Plume z_0 is at " << plume.z_0 << "m ASL and at grid location (" << plumeLoc.first << ", " << plumeLoc.second << ")." << std::endl;
     std::cout << "Plume r_0 is " << plume.r_0 << " metre." << std::endl;
-
+    
     // create skirt structures
     std::vector<skirt *> skirts;
     int numskirts = 3;
     Eigen::Vector3f center = Eigen::Vector3f(BigPlumeLocation.first + ter.min_xyz, BigPlumeLocation.second + ter.min_xyz, 9000.0f);
-
+    
     for(int s = 0; s < numskirts; s++)
     {
         skirt * sk = new skirt();
-
+    
         sk->init(center, 5000.0f, 200.0f, 15000.0f, 12000.0f, 100.0f, y);
         // JG PARAM radius = 8000, step between samples = 200, target height = 15000, condensation height = 12000, thickness = 100
         skirts.push_back(sk);
@@ -1928,33 +1931,33 @@ int capWilson(int steps, int layers, valType topOfAtmo){
     wilsonCloud* wc = new wilsonCloud(center, 2500.0, 50.0, 1, 5, y);
     wc->addExplosion(explosion);
     skirts.push_back((skirt*) wc);
-
+    
     double previousStep = 0, d = 0;
-    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
-
+    PWM::Utils::writeTempImage("X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
+    
     // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
     unsigned int plume_export_frequency = weatherDT / plumeDT;
-    b.outputDirectory = "../ImageOutput/MergeTest/CapWilson";
+    b.outputDirectory = "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson";
     for (int i = 0; i <= steps; ++i){
         t.start();
-
+    
         plume.frame_draw(plumeDT);
-
+    
         for(int s = 0; s < skirts.size(); s++)
         {
             skirts[s]->uplift(plume, plumeDT, 8000.0f, 2000.0f); // JG PARAM - very broad influence zone horizontally, no tail off
             skirts[s]->phaseTransition();
         }
         wc->updateExp(plumeDT);
-
+    
         int frame_num = plume.frame_count / plume_export_frequency;
-
+    
         if (i % ((int) (weatherDT / plumeDT)) == 0){
-            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/CapWilson", i, cloudThreshold);
-            // PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/CapWilson", i, b.getWorldModel()); // images of atmo layers
+            PWM::Utils::basicCloudExtract(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson", i, cloudThreshold);
+            // PWM::Utils::writeAirImagesSelect("X:/GithubProjects/VolcanicSkies-main/X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson", i, b.getWorldModel()); // images of atmo layers
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
-
+    
             previousStep = b.getRunTimePassed();
             b.step();
             stripEdgeAsh(b.getWorldModel()->getAirLayers(), b.getWorldModel()->getConvectionLayers());
@@ -1969,10 +1972,10 @@ int capWilson(int steps, int layers, valType topOfAtmo){
             plume.export_spheres_binary(plume_export_frequency, true);
             for(int s = 0; s < skirts.size(); s++)
                 skirts[s]->exportSkirt(frame_num, s);
-
-            vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold); // uncomment for final run
+    
+            vdbExporter.write(b.getWorldModel(), "X:/GithubProjects/VolcanicSkies-main/ImageOutput/", frame_num, b.getSimTimePassed(), cloudThreshold); // uncomment for final run
         }
-
+    
         t.stop();
         std::cerr << "Step " << i << " took " << t.peek() << "s" << std::endl;
         if (i == steps / 8)
@@ -1990,7 +1993,7 @@ int capWilson(int steps, int layers, valType topOfAtmo){
         else if (i == (7 * steps / 8))
             std::cerr << "\033[1;36m87.5% of the way\033[0m" << std::endl;
     }
-
+    
     b.printTiming(true);
     for(int s = 0; s < numskirts; s++)
         delete skirts[s];
@@ -1998,7 +2001,7 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 }
 
 /*//auto currDir = std::filesystem::current_path();
-//currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/CapWilson");
+//currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/CapWilson");
 //for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
 //    if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".txt" || dir_Entry.path().extension().string() == ".vdb"))
 //        std::filesystem::remove(dir_Entry.path());
@@ -2008,7 +2011,7 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 //int capWilson(int steps, int layers, valType topOfAtmo){
 //    Timer t;
 //    auto currDir = std::filesystem::current_path();
-//    currDir.remove_filename().remove_filename().concat("ImageOutput/").concat("MergeTest/CapWilson");
+//    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/").concat("MergeTest/CapWilson");
 //    for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
 //        if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && (dir_Entry.path().extension().string() == ".ppm" || dir_Entry.path().extension().string() == ".png" || dir_Entry.path().extension().string() == ".dat" || dir_Entry.path().extension().string() == ".txt" || dir_Entry.path().extension().string() == ".vdb"))
 //            std::filesystem::remove(dir_Entry.path());
@@ -2021,8 +2024,8 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 //            std::filesystem::remove(dir_Entry.path());
 //    }
 //    auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-//    auto ter = constructPartTerrain("../resources/MtStHelens.elv", 2);
-//    auto pTer = constructBigTerrain("../resources/MtStHelens.elv");
+//    auto ter = constructPartTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv", 2);
+//    auto pTer = constructBigTerrain("X:/GithubProjects/VolcanicSkies-main/resources/MtStHelens.elv");
    
 //    y->maxLayers = layers;
 //    y->atmoTop = topOfAtmo;    //Set up given heights for the air layers in the weather system
@@ -2030,7 +2033,7 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 
 //    valType cloudThreshold = 0.1;
 
-//    y->init("../resources/PlanetEarth.json", ter, layerHeights);
+//    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, layerHeights);
     
 //    const siv::PerlinNoise::seed_type tempSeed = 100u;
 //    const siv::PerlinNoise temPerNoiGen{ tempSeed };
@@ -2061,10 +2064,10 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 //            }
 //        }
 //    }
-//    PWM::Utils::writeTerrElevImage<double>("../ImageOutput/MergeTest/terrainStructElev.ppm", ter);
-//    PWM::Utils::writeTerrElevImage("../ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
+//    PWM::Utils::writeTerrElevImage<double>("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainStructElev.ppm", ter);
+//    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelElev.ppm", y->getTerrain()->getElevation());
 //    auto vdbExporter = PWM::Utils::vdbExporter<dsType, dsSType, valType, valType2>();
-//    writeLayerStruct("../ImageOutput/MergeTest/CapWilson", y);
+//    writeLayerStruct("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson", y);
 
 //    float ventHeight = ter.sampleHeightAt(BigPlumeLocation.first, BigPlumeLocation.second);
 //    // Create explosion struct
@@ -2111,13 +2114,13 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 
 //    double previousStep = 0, d = 0;
 
-//    PWM::Utils::writeTempImage("../ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
+//    PWM::Utils::writeTempImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/terrainModelTemp.png", y->getTerrain()->getTemperature());
 
 //    std::cout << "Starting simulation..." << std::endl;
 
 //    // Note : change plume_export_frequency so that the frame count export matches the weather export -> the files will be in /output
 //    unsigned int plume_export_frequency = quickStepDT / plumeDT;
-//    b.outputDirectory = "../ImageOutput/MergeTest/CapWilson";
+//    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson";
 //    for (int i = 0; i <= steps; ++i){
 //        t.start();
         
@@ -2140,9 +2143,9 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 //        }
 
 //        if (i % ((int) (quickStepDT / plumeDT)) == 0){
-//            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/CapWilson", i, cloudThreshold);
+//            PWM::Utils::basicCloudExtract(b.getWorldModel(), "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson", i, cloudThreshold);
 //            vdbExporter.write(b.getWorldModel(), "../output", frame_num, b.getSimTimePassed(), cloudThreshold); // uncomment for final run
-//            PWM::Utils::writeAirImagesSelect("../ImageOutput/MergeTest/CapWilson", i, b.getWorldModel()); // images of atmo layers
+//            PWM::Utils::writeAirImagesSelect("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/CapWilson", i, b.getWorldModel()); // images of atmo layers
 //            if (i % ((int) (weatherDT / plumeDT)) != 0)
 //                b.quick_internal_step();
 //        }
@@ -2185,12 +2188,12 @@ int capWilson(int steps, int layers, valType topOfAtmo){
 int ashRainAnalysis(int steps, int width, int height, valType xSize, valType ySize, int layers, valType topOfAtmo){
     
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
-    auto ter = constructTestTerrStruct("../resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
+    auto ter = constructTestTerrStruct("X:/GithubProjects/VolcanicSkies-main/resources/sthelens_detailed_sub5.obj", 400.f, xSize / 2);
     y->maxLayers = layers;
     y->atmoTop = topOfAtmo;    //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 2700, 3000, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
 
     const siv::PerlinNoise::seed_type tempSeed = 100u;
     const siv::PerlinNoise temPerNoiGen{ tempSeed };
@@ -2258,7 +2261,7 @@ int ashRainAnalysis(int steps, int width, int height, valType xSize, valType ySi
             transferDataFromPlumeToAtmAlt(plume, b.getWorldModel());
             transferAshFromPlumeToAtm(plume, b.getWorldModel());
             if (b.getStepCount() % 1 == 0){
-                PWM::Utils::basicCloudExtract(b.getWorldModel(), "../ImageOutput/MergeTest/AshRain", i, 0.1);
+                PWM::Utils::basicCloudExtract(b.getWorldModel(), "/X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain", i, 0.1);
 //                PWM::Utils::airImagesAnalysis(i, 125, 125, 30, b.getWorldModel());
             }
             previousStep = b.getRunTimePassed();
@@ -2295,27 +2298,27 @@ int ashRainAnalysis(int steps, int width, int height, valType xSize, valType ySi
 
 int main(int argc, char** argv){
     if (argc > 1){
-        if (strcasecmp(argv[1], "DC") == 0 || strcasecmp(argv[1], "Donut") == 0 || strcasecmp(argv[1], "DonutClouds") == 0)
+        if (_stricmp(argv[1], "DC") == 0 || _stricmp(argv[1], "Donut") == 0 || _stricmp(argv[1], "DonutClouds") == 0)
             return donutClouds(12500, 512, 512, 30000.0, 30000.0, 20, 20000);
-        else if (strcasecmp(argv[1], "AR") == 0 || strcasecmp(argv[1], "Ash") == 0 || strcasecmp(argv[1], "AshRain") == 0)
+        else if (_stricmp(argv[1], "AR") == 0 || _stricmp(argv[1], "Ash") == 0 || _stricmp(argv[1], "AshRain") == 0)
             return ashRain(12500, 512, 512, 30000.0, 30000.0, 20, 20000);
-        else if (strcasecmp(argv[1], "ARJG") == 0 || strcasecmp(argv[1], "AshJG") == 0 || strcasecmp(argv[1], "AshRainJG") == 0)
+        else if (_stricmp(argv[1], "ARJG") == 0 || _stricmp(argv[1], "AshJG") == 0 || _stricmp(argv[1], "AshRainJG") == 0)
             return ashRain(12500, 512, 512, 30000.0, 30000.0, 20, 20000, true);
-        else if (strcasecmp(argv[1], "DCBG") == 0 || strcasecmp(argv[1], "DonutBig") == 0 || strcasecmp(argv[1], "DonutCloudsBigGrid") == 0)
+        else if (_stricmp(argv[1], "DCBG") == 0 || _stricmp(argv[1], "DonutBig") == 0 || _stricmp(argv[1], "DonutCloudsBigGrid") == 0)
             return donutCloudsBigScale(12500, 20, 20000);
-        else if (strcasecmp(argv[1], "ARBG") == 0 || strcasecmp(argv[1], "AshBig") == 0 || strcasecmp(argv[1], "AshRainBigGrid") == 0)
+        else if (_stricmp(argv[1], "ARBG") == 0 || _stricmp(argv[1], "AshBig") == 0 || _stricmp(argv[1], "AshRainBigGrid") == 0)
             return ashRainBigScale(180000, 20, 20000);
-        else if (strcasecmp(argv[1], "ARBGJG") == 0 || strcasecmp(argv[1], "AshBigJG") == 0 || strcasecmp(argv[1], "AshRainBigGridJG") == 0)
+        else if (_stricmp(argv[1], "ARBGJG") == 0 || _stricmp(argv[1], "AshBigJG") == 0 || _stricmp(argv[1], "AshRainBigGridJG") == 0)
             return ashRainBigScale(180000, 20, 20000, true, false, true);
-        else if (strcasecmp(argv[1], "ARBGA") == 0 || strcasecmp(argv[1], "AshBigAnalysis") == 0 || strcasecmp(argv[1], "AshRainBigGridAnalysis") == 0)
+        else if (_stricmp(argv[1], "ARBGA") == 0 || _stricmp(argv[1], "AshBigAnalysis") == 0 || _stricmp(argv[1], "AshRainBigGridAnalysis") == 0)
             return ashRainBigScale(180000, 20, 20000, false, true);
-        else if (strcasecmp(argv[1], "ARBGF") == 0 || strcasecmp(argv[1], "AshBigFinal") == 0 || strcasecmp(argv[1], "AshRainBigGridFinal") == 0)
+        else if (_stricmp(argv[1], "ARBGF") == 0 || _stricmp(argv[1], "AshBigFinal") == 0 || _stricmp(argv[1], "AshRainBigGridFinal") == 0)
             return ashRainBigScaleFinal(60000, 20, 20000, 100); // 300
-        else if (strcasecmp(argv[1], "ARV") == 0 || strcasecmp(argv[1], "ARVAL") == 0 || strcasecmp(argv[1], "AshRainVal") == 0 || strcasecmp(argv[1], "AshRainValidation") == 0)
+        else if (_stricmp(argv[1], "ARV") == 0 || _stricmp(argv[1], "ARVAL") == 0 || _stricmp(argv[1], "AshRainVal") == 0 || _stricmp(argv[1], "AshRainValidation") == 0)
             return ashRainValidation(180000, 20, 20000, 512, 75000, 300);
-        else if (strcasecmp(argv[1], "S") == 0 || strcasecmp(argv[1], "Skirt") == 0)
+        else if (_stricmp(argv[1], "S") == 0 || _stricmp(argv[1], "Skirt") == 0)
             return skirts3(32000, 20, 20000);
-        else if (strcasecmp(argv[1], "CW") == 0 || strcasecmp(argv[1], "CapWilson") == 0)
+        else if (_stricmp(argv[1], "CW") == 0 || _stricmp(argv[1], "CapWilson") == 0)
             return capWilson(6000, 20, 12000);
         else{
             std::cerr << "Incorrect option chosen! Options are DC, AR, ARJG, DCBG, ARBG, ARBGJG, ARBGA, ARBGF, S, or CW!" << std::endl;

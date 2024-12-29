@@ -45,7 +45,7 @@ typedef PWM::PWMDataStructure::flatStaggeredGrid<valType2> dsSType;
 using namespace PWM::Engine;
 
 void testGetters(){
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto a = std::make_shared<PWM::Model::airLayer<dsType, valType>>(PWM::Model::airLayer<dsType, valType>(planetos, 1659., 100, 128, 128, 10000, 10000));
     auto t = PWM::Model::terrain<dsType, dsSType, valType, valType2>(planetos, 128, 128, 10000, 10000);
     auto ter = std::make_shared<PWM::Model::terrain<dsType, dsSType, valType, valType2>>(t);
@@ -72,7 +72,7 @@ void testGetters(){
 }
 
 void testSetters(){
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
     auto a = std::make_shared<PWM::Model::airLayer<dsType, valType>>(PWM::Model::airLayer<dsType, valType>(planetos, 1659., 100, 128, 128, 10000, 10000));
     auto t = PWM::Model::terrain<dsType, dsSType, valType, valType2>(planetos, 128, 128, 10000, 10000);
     auto ter = std::make_shared<PWM::Model::terrain<dsType, dsSType, valType, valType2>>(t);
@@ -95,14 +95,14 @@ void testSetters(){
 
 void testSingleHill(const size_t width, const int steps){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/ObstaclesEngineTest/SingleHill");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
     }
 
     valType temp = 273.15;
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
 
     auto aL = std::vector<std::shared_ptr<PWM::Model::airLayer<dsType, valType>>>();
     auto cL = std::vector<std::shared_ptr<PWM::Model::convectionLayer<dsType, valType>>>();
@@ -167,7 +167,7 @@ void testSingleHill(const size_t width, const int steps){
     }
     x.setTerrain(ter);
 
-    PWM::Utils::writeTerrElevImage("../ImageOutput/ObstaclesEngineTest/SingleHill/terrainModelElev.ppm", x.getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/terrainModelElev.ppm", x.getTerrain()->getElevation());
 
     std::cout << "\033[1;36mRunning ObstaclesEngineTest/SingleHill for " << steps << " steps on a grid of " << width << "x" << width << " cells.\033[0m" << std::endl;
     valType previousStep = 0;
@@ -176,15 +176,15 @@ void testSingleHill(const size_t width, const int steps){
         if (i % 10 == 0){
             for (int j = 0; j < aL.size(); ++j){
                 std::stringstream fT, fsX, fsY;
-                fT << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
-                fsX << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
-                fsY << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
+                fT << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
+                fsX << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
+                fsY << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
                 PWM::Utils::writeTempImage(fT.str(), aL[j]->getTemperature());
                 PWM::Utils::writeVelImage(fsX.str(), aL[j]->getVelocityPhi());
                 PWM::Utils::writeVelImage(fsY.str(), aL[j]->getVelocityTheta());
                 if (j < cL.size()){
                     std::stringstream fc;
-                    fc << "../ImageOutput/ObstaclesEngineTest/SingleHill/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
+                    fc << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
                     PWM::Utils::writeVelImage(fc.str(), cL[j]->getVerticalVelocities());
                 }
             }
@@ -195,7 +195,7 @@ void testSingleHill(const size_t width, const int steps){
 //        if (i % 2 == 0){
 //            for (int j = 0; j < aL.size(); ++j){
 //                std::stringstream fP;
-//                fP << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << "_Before_Vert.ppm";
+//                fP << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << "_Before_Vert.ppm";
 //                PWM::Utils::writeTerrElevImage(fP.str(), aL[j]->getPressure());
 //            }
 //        }
@@ -205,7 +205,7 @@ void testSingleHill(const size_t width, const int steps){
 //        if (i % 2 == 0){
 //            for (int j = 0; j < aL.size(); ++j){
 //                std::stringstream fP;
-//                fP << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << "_ZAfter_Vert.ppm";
+//                fP << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << "_ZAfter_Vert.ppm";
 //                PWM::Utils::writeTerrElevImage(fP.str(), aL[j]->getPressure());
 //            }
 //        }
@@ -237,14 +237,14 @@ void testSingleHill(const size_t width, const int steps){
 
 void testBernoulliHills(const size_t width, const int steps){
     auto currDir = std::filesystem::current_path();
-    currDir.remove_filename().remove_filename().concat("ImageOutput/ObstaclesEngineTest/BernoulliPrinciple");
+    currDir.remove_filename().remove_filename().concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
     }
 
     valType temp = 273.15;
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
 
     auto aL = std::vector<std::shared_ptr<PWM::Model::airLayer<dsType, valType>>>();
     auto cL = std::vector<std::shared_ptr<PWM::Model::convectionLayer<dsType, valType>>>();
@@ -323,7 +323,7 @@ void testBernoulliHills(const size_t width, const int steps){
     }
     x.setTerrain(ter);
 
-    PWM::Utils::writeTerrElevImage("../ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/terrainModelElev.ppm", x.getTerrain()->getElevation());
+    PWM::Utils::writeTerrElevImage("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/terrainModelElev.ppm", x.getTerrain()->getElevation());
 
     std::cout << "\033[1;36mRunning ObstaclesEngineTest/BernoulliPrinciple for " << steps << " steps on a grid of " << width << "x" << width << " cells.\033[0m" << std::endl;
     valType previousStep = 0;
@@ -332,15 +332,15 @@ void testBernoulliHills(const size_t width, const int steps){
         if (i % 10 == 0){
             for (int j = 0; j < aL.size(); ++j){
                 std::stringstream fT, fsX, fsY;
-                fT << "../ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
-                fsX << "../ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
-                fsY << "../ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
+                fT << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
+                fsX << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
+                fsY << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
                 PWM::Utils::writeTempImage(fT.str(), aL[j]->getTemperature());
                 PWM::Utils::writeVelImage(fsX.str(), aL[j]->getVelocityPhi());
                 PWM::Utils::writeVelImage(fsY.str(), aL[j]->getVelocityTheta());
                 if (j < cL.size()){
                     std::stringstream fc;
-                    fc << "../ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
+                    fc << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/BernoulliPrinciple/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
                     PWM::Utils::writeVelImage(fc.str(), cL[j]->getVerticalVelocities());
                 }
             }
@@ -351,7 +351,7 @@ void testBernoulliHills(const size_t width, const int steps){
 //        if (i % 10 == 0){
 //            for (int j = 0; j < aL.size(); ++j){
 //                std::stringstream fP;
-//                fP << "../ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << ".ppm";
+//                fP << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/ObstaclesEngineTest/SingleHill/Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Pressure_Step_" << i << ".ppm";
 //                PWM::Utils::writeTerrElevImage(fP.str(), aL[j]->getPressure());
 //            }
 //        }

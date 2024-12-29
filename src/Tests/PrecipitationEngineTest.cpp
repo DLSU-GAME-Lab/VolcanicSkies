@@ -68,13 +68,13 @@ void testMiscellany(int width, int steps){
             std::filesystem::remove(dir_Entry.path());
     }
 
-    currDir.concat("ImageOutput/RainfallEngineTest");
+    currDir.concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/RainfallEngineTest");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
     }
 
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
 
     auto aL = std::vector<std::shared_ptr<PWM::Model::airLayer<dsType, valType>>>();
     auto cL = std::vector<std::shared_ptr<PWM::Model::convectionLayer<dsType, valType>>>();
@@ -131,14 +131,14 @@ void testMiscellany(int width, int steps){
     for (int i = 0; i < steps; ++i){
         if (i % 20 == 0){
             std::stringstream fGW;
-            fGW << "../ImageOutput/PrecipitationEngineTest/Rainfall/GroundWater_Step_" << i << ".ppm";
+            fGW << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/GroundWater_Step_" << i << ".ppm";
             PWM::Utils::writeMoisImage(fGW.str(), ter->getMoisture());
             for (int j = 0; j < aL.size(); ++j){
                 std::stringstream fC, fsX, fsY, fT;
-                fC << "../ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_CloudWater_Step_" << i << ".ppm";
-                fT << "../ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
-                fsX << "../ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
-                fsY << "../ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
+                fC << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_CloudWater_Step_" << i << ".ppm";
+                fT << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_Temperature_Step_" << i << ".ppm";
+                fsX << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityX_Step_" << i << ".ppm";
+                fsY << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Air_Layer_" << j << "_(" << aL[j]->getHeight() << "m)_VelocityY_Step_" << i << ".ppm";
                 PWM::Utils::writeMoisImage<valType>(fC.str(), aL[j]->getCondensedWater());
                 PWM::Utils::writeTempImage<valType>(fT.str(), aL[j]->getTemperature());
                 PWM::Utils::writeVelImage<valType>(fsX.str(), aL[j]->getVelocityPhi());
@@ -146,8 +146,8 @@ void testMiscellany(int width, int steps){
 
                 if (j < cL.size()){
                     std::stringstream fc, fR;
-                    fc << "../ImageOutput/PrecipitationEngineTest/Rainfall/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
-                    fR << "../ImageOutput/PrecipitationEngineTest/Rainfall/Vertical_Layer_" << j << "_Rainfall_Step_" << i << ".ppm";
+                    fc << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Vertical_Layer_" << j << "_Vertical_Velocity_Step_" << i << ".ppm";
+                    fR << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/Rainfall/Vertical_Layer_" << j << "_Rainfall_Step_" << i << ".ppm";
                     PWM::Utils::writeVelImage<valType>(fc.str(), cL[j]->getVerticalVelocities());
                     PWM::Utils::writeMoisImage<valType>(fR.str(), cL[j]->getRainfall());
                 }
@@ -173,7 +173,7 @@ int testAshRain(int steps, int width, int height, valType xSize, valType ySize, 
             std::filesystem::remove(dir_Entry.path());
     }
 
-    currDir.concat("ImageOutput/PrecipitationEngineTest/AshFall");
+    currDir.concat("X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/AshFall");
     for (auto dir_Entry : std::filesystem::directory_iterator(currDir)){
         if (!dir_Entry.path().empty() && dir_Entry.path().has_filename() && dir_Entry.path().extension().string() == ".ppm")
             std::filesystem::remove(dir_Entry.path());
@@ -186,7 +186,7 @@ int testAshRain(int steps, int width, int height, valType xSize, valType ySize, 
             std::filesystem::remove(dir_Entry.path());
     }
 
-    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("../resources/PlanetEarth.json"));
+    auto planetos = std::make_shared<PWM::Model::planet>(PWM::Model::planet("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json"));
 
     auto y = std::make_shared<PWM::Model::world<dsType, dsSType, valType, valType2>>(PWM::Model::world<dsType, dsSType, valType, valType2>());
     auto ter = terrain_structure();
@@ -195,7 +195,7 @@ int testAshRain(int steps, int width, int height, valType xSize, valType ySize, 
     y->atmoTop = topOfAtmo;    //Set up given heights for the air layers in the weather system
     std::vector<valType> layerHeights = {500, 1500, 2500, 3500, 4500, 5500, 6500};
 
-    y->init("../resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
+    y->init("X:/GithubProjects/VolcanicSkies-main/resources/PlanetEarth.json", ter, width, height, xSize, ySize, layerHeights);
 
     int alSize = y->getAirLayers().size();
     for (int i = 0; i < alSize - 1; ++i){
@@ -236,20 +236,20 @@ int testAshRain(int steps, int width, int height, valType xSize, valType ySize, 
     float cveDT = 3.f;
     auto b = worldEngine(y, weatherDT, cveDT, true);
 
-    b.outputDirectory = "../ImageOutput/MergeTest/AshRain";
+    b.outputDirectory = "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/MergeTest/AshRain";
     auto aL = b.getWorldModel()->getAirLayers();
     auto cL = b.getWorldModel()->getConvectionLayers();
 
     double previousStep = 0;
     for (int i = 0; i <= steps; ++i){
-//        PWM::Utils::writeAirImages("../ImageOutput/PrecipitationEngineTest/AshFall", i, b.getWorldModel());
+//        PWM::Utils::writeAirImages("../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/AshFall", i, b.getWorldModel());
         if (i % 4 == 0){
             for (int j = 0; j < aL.size(); ++j){
                 std::stringstream fA, fPar;
-                fPar << "../ImageOutput/PrecipitationEngineTest/AshFall/Air_Layer_" << j << "_" << aL[j]->getHeight() << "m_Particulates_Before_Step_" << i << ".ppm";
+                fPar << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/AshFall/Air_Layer_" << j << "_" << aL[j]->getHeight() << "m_Particulates_Before_Step_" << i << ".ppm";
                 PWM::Utils::writeAshImage(fPar.str(), aL[j]->getParticulates());
                 if (j < cL.size()){
-                    fA << "../ImageOutput/PrecipitationEngineTest/AshFall/Convection_Layer_" << j << "_Ashfall_Before_Step_" << i << ".ppm";
+                    fA << "../X:/GithubProjects/VolcanicSkies-main/ImageOutput/PrecipitationEngineTest/AshFall/Convection_Layer_" << j << "_Ashfall_Before_Step_" << i << ".ppm";
                     PWM::Utils::writeAshImage(fA.str(), cL[j]->getAshfall());
                 }
             }

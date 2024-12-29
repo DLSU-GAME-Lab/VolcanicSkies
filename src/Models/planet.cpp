@@ -25,6 +25,7 @@
 
 #include "json.hpp"
 #include "planet.h"
+#include <numbers>
 
 namespace PWM{
 namespace Model{
